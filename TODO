@@ -3,7 +3,12 @@ Must...
 
 Important...
 Receipt has BNCO logo on it.
-Less confusing workflow to save and then print.
+One button that saves and then prints.
+    "How do you expose a django admin 'action' on the change form page.
+    In particular, I'd love a button which saves the current object and
+    then performs an action."
+    idea... override something in modeladmin
+
 
 
 Nice...

@@ -11,6 +11,13 @@ class PersonAdmin(admin.ModelAdmin):
 
     inlines = [PurchaseInline]
 
+    # crazy attempt -- roll this back!
+    #def response_change(self, request, obj):
+        #print "Here!"
+        #return HttpResponseRedirect("/receipt/%d" % obj.id)
+
+
+
 
 admin.site.register(Table)
 admin.site.register(AuctionItem)
