@@ -1,0 +1,8 @@
+*.pyc
+*.swp
+*.sql3
+local_*
+.project
+.pydevproject
+.settings/org.eclipse.core.resources.prefs
+

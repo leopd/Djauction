@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>BNCO Receipt</title>
+        <style>
+        </style>
+    </head>
+    <body>
+        <h1>Receipt</h1>
+        <h2>Blue Nile Children's Organization Benefit 2011</h2>
+
+        <h3>For {{person}}</h3>
+
+        Items purchased:
+        <table>
+        <tr>
+            <th>Item
+            </th>
+            <th>Price
+            </th>
+        </tr>
+        {% for purchase in person.purchase_set.all %}
+        <tr>
+            <td>{{purchase.name}}
+            </td>
+            <td>${{purchase.amount|floatformat:2}}
+            </td>
+        </tr>
+        {% endfor %}
+        <tr class="separator"></tr>
+        <tr class="total">
+            <td>Total:</td>
+            <td>${{person.total|floatformat:2}}</td>
+        </tr>
+        </table>
+
+        <div class="footer">
+            Blue Nile Children's Organization is a 501c3 non-profit organization.  
+            Donations are tax-deductible above their fair-market value.
+        </div>
+        
+    </body>
+</html>
