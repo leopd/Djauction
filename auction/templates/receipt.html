@@ -2,9 +2,46 @@
     <head>
         <title>BNCO Receipt</title>
         <style>
+            body {
+                font-family: verdana, sans-serif;
+                background: #ccc;
+            }
+
+            th {
+                background: #ddd;
+            }
+            td {
+                border: solid 1px black;
+                padding: 0 5px;
+            }
+
+            .money {
+                text-align: right;
+            }
+
+            .total {
+                font-weight: bold;
+            }
+
+            .footer {
+                margin-top: 50px;
+                font-style: italic;
+            }
+            
+            .main {
+              margin: 15px 30px;
+              padding: 10px 30px 80px;
+              background: #fff;
+              box-shadow: 0 0 10px #333;
+              -webkit-box-shadow: 0 0 10px #333;
+              -moz-box-shadow: 0 0 10px #333;
+
+                
+            }
         </style>
     </head>
     <body>
+      <div class="main">
         <h1>Receipt</h1>
         <h2>Blue Nile Children's Organization Benefit 2011</h2>
 
@@ -20,16 +57,16 @@
         </tr>
         {% for purchase in person.purchase_set.all %}
         <tr>
-            <td>{{purchase.name}}
+            <td class="lineitem">{{purchase.name}}
             </td>
-            <td>${{purchase.amount|floatformat:2}}
+            <td class="money">${{purchase.amount|floatformat:2}}
             </td>
         </tr>
         {% endfor %}
         <tr class="separator"></tr>
         <tr class="total">
             <td>Total:</td>
-            <td>${{person.total|floatformat:2}}</td>
+            <td class="money total">${{person.total|floatformat:2}}</td>
         </tr>
         </table>
 
@@ -38,5 +75,6 @@
             Donations are tax-deductible above their fair-market value.
         </div>
         
+      </div>
     </body>
 </html>

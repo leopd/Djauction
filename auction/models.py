@@ -53,7 +53,7 @@ class Purchase(models.Model):
 
     def name(self):
         if self.item_number:
-            return "%s %s" % (self.type, self.item_number)
-        return self.type
+            return "Silent Auction Item #%s" % (self.item_number)
+        return "Raise the paddle donation"
 
 
