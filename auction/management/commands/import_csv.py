@@ -1,14 +1,21 @@
 import csv
+import sys
+import re
 from django.core.management.base import BaseCommand, CommandError
 
-from auction.models import *
+import auction.models
 
 class Command(BaseCommand):
-    args = '<filename.csv>'
+    args = '<classname> <filename.csv>'
     help = 'Imports a CSV file into a table.'
 
-    def handle(self, filename, *args, **options):
-        klass = Person
+    def handle(self, classname, filename, *args, **options):
+        if re.search(r'\W',classname):
+            print("First parameter must be the name of a model to import like 'Person'. %s does not work" % classname)
+            print("Try...")
+            print(dir(auction.models))
+            sys.exit(-1)
+        klass = eval("auction.models.%s" % classname)
         fh = open(filename,'rU')
         reader = csv.DictReader(fh,dialect='excel')
 
