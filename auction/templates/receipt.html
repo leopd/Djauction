@@ -82,7 +82,10 @@
       </div>
 
       <script>
-        window.print();
+        // Pause so the page renders before the print dialog shows up.
+        window.setTimeout( function() {
+            window.print();
+        }, 200);
       </script>
     </body>
 </html>
