@@ -91,5 +91,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'auction',
+    'south',
 )
 

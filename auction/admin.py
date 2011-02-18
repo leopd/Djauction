@@ -13,5 +13,6 @@ class PersonAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Table)
+admin.site.register(AuctionItem)
 admin.site.register(Person,PersonAdmin)
 

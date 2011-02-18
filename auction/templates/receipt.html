@@ -9,6 +9,7 @@
 
             th {
                 background: #ddd;
+                padding: 2px 8px;
             }
             td {
                 border: solid 1px black;
@@ -47,12 +48,13 @@
 
         <h3>For {{person}}</h3>
 
-        Items purchased:
         <table>
         <tr>
             <th>Item
             </th>
-            <th>Price
+            <th>Amount Paid
+            </th>
+            <th>Fair Market Value
             </th>
         </tr>
         {% for purchase in person.purchase_set.all %}
@@ -60,6 +62,8 @@
             <td class="lineitem">{{purchase.name}}
             </td>
             <td class="money">${{purchase.amount|floatformat:2}}
+            </td>
+            <td class="money">${{purchase.item.fair_value|floatformat:2}}
             </td>
         </tr>
         {% endfor %}

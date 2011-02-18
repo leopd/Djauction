@@ -1,7 +1,7 @@
 from django.db import models
 
 class Table(models.Model):
-    number = models.IntegerField()
+    number = models.IntegerField(unique = True)
     captain = models.ForeignKey('Person',null = True, blank = True, related_name='captain_of')
     
     def __unicode__(self):
@@ -9,6 +9,7 @@ class Table(models.Model):
 
     class Meta:
         ordering = ['number']
+
 
 
 class Person(models.Model):
@@ -19,7 +20,7 @@ class Person(models.Model):
     address = models.CharField(max_length = 100, null = True, blank = True)
 
     table = models.ForeignKey(Table)
-    bid_number = models.IntegerField()
+    bid_number = models.IntegerField(unique = True)
 
     def __unicode__(self):
         return self.name()
@@ -30,6 +31,7 @@ class Person(models.Model):
     class Meta:
         ordering = ['bid_number']
 
+
     def total(self):
         sum = 0
         for purchase in self.purchase_set.all():
@@ -37,23 +39,34 @@ class Person(models.Model):
         return sum
 
 
+class AuctionItem(models.Model):
+    number = models.IntegerField(unique = True)
+    name = models.CharField(max_length = 100)
+    fair_value = models.FloatField(null = True, blank = True)
+
+    class Meta:
+        ordering = ['number']
+
+    def __unicode__(self):
+        return u"%s (Item #%s)" % (self.name, self.number)
+
+
 
 PURCHASE_TYPES = (
-        ('Paddle', 'Raise the paddle'),
+        ('Donation', 'Raise the paddle donation'),
         ('Silent', 'Silent auction item'),
     )
-
 
 class Purchase(models.Model):
     by_whom = models.ForeignKey(Person)
     type = models.CharField(max_length = 10, choices = PURCHASE_TYPES, default = 'Silent')
-    item_number = models.CharField(max_length = 5, null = True, blank = True)
+    item = models.ForeignKey(AuctionItem)
     amount = models.FloatField()
     notes = models.CharField(max_length = 200, null = True, blank = True)
 
     def name(self):
-        if self.item_number:
-            return "Silent Auction Item #%s" % (self.item_number)
-        return "Raise the paddle donation"
+        if self.item:
+            return self.item
+        return "Donation"
 
 
