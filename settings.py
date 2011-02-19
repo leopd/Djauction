@@ -1,6 +1,7 @@
 # Django settings for bnco project.
 import os
 import sys
+import traceback
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -94,3 +95,9 @@ INSTALLED_APPS = (
     'south',
 )
 
+try:
+    from local_settings import *
+except:
+    traceback.print_exc()
+    print "\nProblem loading local_settings.py.  Try:\n\ttouch local_settings.py\n"
+    sys.exit()
