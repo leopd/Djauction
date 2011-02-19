@@ -60,7 +60,7 @@ PURCHASE_TYPES = (
 class Purchase(models.Model):
     by_whom = models.ForeignKey(Person)
     type = models.CharField(max_length = 10, choices = PURCHASE_TYPES, default = 'Silent')
-    item = models.ForeignKey(AuctionItem)
+    item = models.ForeignKey(AuctionItem, null = True, blank = True)
     amount = models.FloatField()
     notes = models.CharField(max_length = 200, null = True, blank = True)
 
