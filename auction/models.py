@@ -69,4 +69,7 @@ class Purchase(models.Model):
             return self.item
         return "Donation"
 
+    def __unicode__(self):
+        return u"%s purchased %s for %s" % (self.by_whom, self.item, self.amount)
+
 
