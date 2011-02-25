@@ -54,8 +54,13 @@ class AuctionItem(models.Model):
 
 
 PURCHASE_TYPES = (
-        ('Donation', 'Raise the paddle donation'),
-        ('Silent', 'Silent auction item'),
+        ('Silent auction item','Silent auction item'),
+        ('Ticket Purchase','Ticket Purchase'),
+        ('Raise the Paddle','Raise the Paddle'),
+        ('Orphan Sponsorship','Orphan Sponsorship'),
+        ('Clinic Sponsorship','Clinic Sponsorship'),
+        ('General Donation','General Donation'),
+        ('Clinic Donation','Clinic Donation'),
     )
 
 class Purchase(models.Model):
