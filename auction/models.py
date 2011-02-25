@@ -1,6 +1,14 @@
 from django.db import models
 
 
+PAYMENT_CHOICES = (
+        ('Credit Card', 'Credit Card'),
+        ('Check', 'Check'),
+        ('Cash', 'Cash'),
+        ('Other', 'Other'),
+        ('None yet', 'None yet'),
+    )
+
 class Person(models.Model):
     full_name = models.CharField(max_length = 100)
     email = models.CharField(max_length = 100, null = True, blank = True)
@@ -9,6 +17,11 @@ class Person(models.Model):
 
     table = models.CharField(max_length=15)
     bid_number = models.IntegerField(unique = True)
+
+    payment_type = models.CharField(max_length = 20, choices = PAYMENT_CHOICES, default = 'None yet')
+    payment_number = models.CharField("Check number or Last 4 of credit card", max_length = 100, null = True, blank = True)
+
+    general_notes = models.TextField(null = True, blank = True)
 
     def __unicode__(self):
         return self.name()
