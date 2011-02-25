@@ -1,16 +1,5 @@
 from django.db import models
 
-class Table(models.Model):
-    number = models.IntegerField(unique = True)
-    captain = models.ForeignKey('Person',null = True, blank = True, related_name='captain_of')
-    
-    def __unicode__(self):
-        return "Table %s" % self.number
-
-    class Meta:
-        ordering = ['number']
-
-
 
 class Person(models.Model):
     first_name = models.CharField(max_length = 100)
@@ -19,7 +8,7 @@ class Person(models.Model):
     phone = models.CharField(max_length = 100, null = True, blank = True)
     address = models.CharField(max_length = 100, null = True, blank = True)
 
-    table = models.ForeignKey(Table)
+    table = models.CharField(max_length=15)
     bid_number = models.IntegerField(unique = True)
 
     def __unicode__(self):
