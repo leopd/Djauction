@@ -8,6 +8,17 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
+        # Adding model 'Payment'
+        db.create_table('auction_payment', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('by_whom', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auction.Person'])),
+            ('type', self.gf('django.db.models.fields.CharField')(default='Silent', max_length=10)),
+            ('payment_number', self.gf('django.db.models.fields.CharField')(max_length=8, null=True, blank=True)),
+            ('amount', self.gf('django.db.models.fields.FloatField')()),
+            ('notes', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
+        ))
+        db.send_create_signal('auction', ['Payment'])
+
         # Adding field 'Person.payment_type'
         db.add_column('auction_person', 'payment_type', self.gf('django.db.models.fields.CharField')(default='None yet', max_length=20), keep_default=False)
 
@@ -20,6 +31,9 @@ class Migration(SchemaMigration):
 
     def backwards(self, orm):
         
+        # Deleting model 'Payment'
+        db.delete_table('auction_payment')
+
         # Deleting field 'Person.payment_type'
         db.delete_column('auction_person', 'payment_type')
 
@@ -37,6 +51,15 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'number': ('django.db.models.fields.IntegerField', [], {'unique': 'True'})
+        },
+        'auction.payment': {
+            'Meta': {'object_name': 'Payment'},
+            'amount': ('django.db.models.fields.FloatField', [], {}),
+            'by_whom': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auction.Person']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'notes': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'payment_number': ('django.db.models.fields.CharField', [], {'max_length': '8', 'null': 'True', 'blank': 'True'}),
+            'type': ('django.db.models.fields.CharField', [], {'default': "'Silent'", 'max_length': '10'})
         },
         'auction.person': {
             'Meta': {'ordering': "['bid_number']", 'object_name': 'Person'},

@@ -18,9 +18,6 @@ class Person(models.Model):
     table = models.CharField(max_length=15)
     bid_number = models.IntegerField(unique = True)
 
-    payment_type = models.CharField(max_length = 20, choices = PAYMENT_CHOICES, default = 'None yet')
-    payment_number = models.CharField("Check number or Last 4 of credit card", max_length = 100, null = True, blank = True)
-
     general_notes = models.TextField(null = True, blank = True)
 
     def __unicode__(self):
@@ -38,6 +35,9 @@ class Person(models.Model):
         for purchase in self.purchase_set.all():
             sum += purchase.amount
         return sum
+
+    
+    
 
 
 class AuctionItem(models.Model):
@@ -78,4 +78,20 @@ class Purchase(models.Model):
     def __unicode__(self):
         return u"%s purchased %s for %s" % (self.by_whom, self.item, self.amount)
 
+
+PAYMENT_TYPES = (
+        ('Credit Card','Credit Card'),
+        ('Check','Check'),
+        ('Cash','Cash'),
+    )
+
+class Payment(models.Model):
+    by_whom = models.ForeignKey(Person)
+    type = models.CharField(max_length = 10, choices = PAYMENT_TYPES, default = 'Silent')
+    payment_number = models.CharField("Check # or last 4 of Credit Card",max_length = 8, null = True, blank = True)
+    amount = models.FloatField()
+    notes = models.CharField(max_length = 200, null = True, blank = True)
+
+    def __unicode__(self):
+        return u"%s paid %s by %s %s" % (self.by_whom, self.amount, self.type, self.payment_number)
 
