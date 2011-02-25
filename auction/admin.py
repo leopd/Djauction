@@ -7,7 +7,7 @@ class PurchaseInline(admin.TabularInline):
 class PersonAdmin(admin.ModelAdmin):
     list_filter = [ 'table' ]
     list_display = [ Person.name, 'table', 'bid_number' ]
-    search_fields = ['last_name', 'first_name', 'bid_number']
+    search_fields = ['full_name', 'bid_number']
 
     inlines = [PurchaseInline]
 
