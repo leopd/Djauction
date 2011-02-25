@@ -63,18 +63,18 @@ class AuctionItem(models.Model):
 
 
 PURCHASE_TYPES = (
-        ('Silent auction item','Silent auction item'),
-        ('Ticket Purchase','Ticket Purchase'),
-        ('Raise the Paddle','Raise the Paddle'),
-        ('Orphan Sponsorship','Orphan Sponsorship'),
-        ('Clinic Sponsorship','Clinic Sponsorship'),
-        ('General Donation','General Donation'),
-        ('Clinic Donation','Clinic Donation'),
+        ('Silent','Silent auction item'),
+        ('Ticket','Ticket Purchase'),
+        ('Paddle','Raise the Paddle'),
+        ('Orphan','Orphan Sponsorship'),
+        ('Clinic','Clinic Sponsorship'),
+        ('General','General Donation'),
+        ('ClinicD','Clinic Donation'),
     )
 
 class Purchase(models.Model):
     by_whom = models.ForeignKey(Person)
-    type = models.CharField(max_length = 20, choices = PURCHASE_TYPES, default = 'Silent')
+    type = models.CharField(max_length = 10, choices = PURCHASE_TYPES, default = 'Silent')
     item = models.ForeignKey(AuctionItem, null = True, blank = True)
     amount = models.FloatField()
     notes = models.CharField(max_length = 200, null = True, blank = True)
@@ -82,14 +82,14 @@ class Purchase(models.Model):
     def name(self):
         if self.item:
             return self.item
-        return "Donation"
+        return self.get_type_display()
 
     def __unicode__(self):
         return u"%s purchased %s for %s" % (self.by_whom, self.item, self.amount)
 
 
 PAYMENT_TYPES = (
-        ('Credit Card','Credit Card'),
+        ('Card','Credit Card'),
         ('Check','Check'),
         ('Cash','Cash'),
     )
@@ -105,7 +105,7 @@ class Payment(models.Model):
         return u"%s paid %s by %s %s" % (self.by_whom, self.amount, self.type, self.payment_number)
 
     def description(self):
-        desc = "Payment by %s" % self.type
+        desc = "Payment by %s" % self.get_type_display()
         if self.type=="Credit Card" and self.payment_number:
             desc += " number xxxx-%s" % self.payment_number
         if self.type=="Check" and self.payment_number:

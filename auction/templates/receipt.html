@@ -72,7 +72,7 @@
             Building a future... one child at a time
           </div>
           <img src="http://bnco.leodirac.com/wp-content/uploads/2010/10/cropped-bigpic2.jpg" class="imghead">
-        <h2>Blue Nile Children’s Organization 2011 Auction Buyer Receipt
+        <h2>BNCO 2011 Auction Buyer Receipt
         </h2>
 
         <h3>Buyer Name: {{person}}</h3>
@@ -81,7 +81,7 @@
             <h3>Buyer phone: {{person.phone}}</h3>
         {% endif %}
         {% if person.email %}
-            <h3>Buyer phone: {{person.email}}</h3>
+            <h3>Buyer email: {{person.email}}</h3>
         {% endif %}
 
         <table class="invoice">
@@ -102,7 +102,7 @@
             </td>
             <td class="money">${{purchase.amount|floatformat:2}}
             </td>
-            <td class="money">{{purchase.type}}
+            <td class="money">{{purchase.get_type_display}}
             </td>
         </tr>
         {% endfor %}
@@ -123,11 +123,11 @@
         {% endfor %}
         {% if person.balance_due != 0 %}
         <tr class="separator"></tr>
-        <tr>
+        <tr class="total">
             <td class="lineitem">
                 Balance due:
             </td>
-            <td class="money">${{person.balance_due}}
+            <td class="money">${{person.balance_due|floatformat:2}}
             </td>
         </tr>
         {% endif %}

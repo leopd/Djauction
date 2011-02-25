@@ -3,10 +3,11 @@ from auction.models import *
 
 class PurchaseInline(admin.TabularInline):
     model = Purchase
+    extra = 1
 
 class PaymentInline(admin.TabularInline):
     model = Payment
-    extra = 1
+    extra = 0
 
 class PersonAdmin(admin.ModelAdmin):
     list_filter = [ 'table' ]
