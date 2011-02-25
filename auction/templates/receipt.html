@@ -6,14 +6,18 @@
             body {
                 font-family: verdana, sans-serif;
             }
+            table, th, td
+            {
+                border-collapse: collapse;
+                border: 1px solid black;
+            }
 
             th {
                 background: #ddd;
-                padding: 2px 8px;
+                padding: 3px 15px;
             }
             td {
-                border: solid 1px black;
-                padding: 0 5px;
+                padding: 2px 10px;
             }
 
             .money {
@@ -27,6 +31,7 @@
             .footer {
                 margin-top: 50px;
                 font-style: italic;
+                font-size: 13px;
             }
             
             .main {
@@ -45,7 +50,9 @@
                 text-align: right;
             }
             .imghead {
-                height: 100px;
+                height: 80px;
+                margin: 4px auto 0;
+                display: block;
             }
             h2 {
                 font-size: 20px;
@@ -56,7 +63,10 @@
                 margin: 2px;
             }
             .invoice {
-                margin: 10px;
+                margin: 15px;
+            }
+            .item_column {
+                width: 70%;
             }
             .url {
                 text-align: center;
@@ -86,11 +96,9 @@
 
         <table class="invoice">
         <tr>
-            <th>Item
+            <th style="item_column">Item
             </th>
             <th>Amount 
-            </th>
-            <th>Type
             </th>
         </tr>
         {% for purchase in person.purchase_set.all %}
@@ -102,16 +110,13 @@
             </td>
             <td class="money">${{purchase.amount|floatformat:2}}
             </td>
-            <td class="money">{{purchase.get_type_display}}
-            </td>
         </tr>
         {% endfor %}
-        <tr class="separator"></tr>
         <tr class="total">
             <td>Total Purchases:</td>
             <td class="money total">${{person.total_purchases|floatformat:2}}</td>
         </tr>
-        <tr class="separator"></tr>
+        <tr class="separator"><td colspan="*"></td></tr>
         {% for payment in person.payment_set.all %}
         <tr>
             <td class="lineitem">
@@ -122,7 +127,6 @@
         </tr>
         {% endfor %}
         {% if person.balance_due != 0 %}
-        <tr class="separator"></tr>
         <tr class="total">
             <td class="lineitem">
                 Balance due:
@@ -143,7 +147,7 @@
           </p>
 
           <p>
-            Thank you for your support of Blue Nile Children’s Organization
+            Thank you for your support of Blue Nile Children’s Organization!
           </p>
 
           <p class="url">
