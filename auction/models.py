@@ -30,11 +30,20 @@ class Person(models.Model):
         ordering = ['bid_number']
 
 
-    def total(self):
+    def total_purchases(self):
         sum = 0
         for purchase in self.purchase_set.all():
             sum += purchase.amount
         return sum
+
+    def total_payments(self):
+        sum = 0
+        for payment in self.payment_set.all():
+            sum += payment.amount
+        return sum
+
+    def balance_due(self):
+        return self.total_purchases() - self.total_payments()
 
     
     
@@ -65,7 +74,7 @@ PURCHASE_TYPES = (
 
 class Purchase(models.Model):
     by_whom = models.ForeignKey(Person)
-    type = models.CharField(max_length = 10, choices = PURCHASE_TYPES, default = 'Silent')
+    type = models.CharField(max_length = 20, choices = PURCHASE_TYPES, default = 'Silent')
     item = models.ForeignKey(AuctionItem, null = True, blank = True)
     amount = models.FloatField()
     notes = models.CharField(max_length = 200, null = True, blank = True)
@@ -87,11 +96,19 @@ PAYMENT_TYPES = (
 
 class Payment(models.Model):
     by_whom = models.ForeignKey(Person)
-    type = models.CharField(max_length = 10, choices = PAYMENT_TYPES, default = 'Silent')
+    type = models.CharField(max_length = 20, choices = PAYMENT_TYPES, default = 'Silent')
     payment_number = models.CharField("Check # or last 4 of Credit Card",max_length = 8, null = True, blank = True)
     amount = models.FloatField()
     notes = models.CharField(max_length = 200, null = True, blank = True)
 
     def __unicode__(self):
         return u"%s paid %s by %s %s" % (self.by_whom, self.amount, self.type, self.payment_number)
+
+    def description(self):
+        desc = "Payment by %s" % self.type
+        if self.type=="Credit Card" and self.payment_number:
+            desc += " number xxxx-%s" % self.payment_number
+        if self.type=="Check" and self.payment_number:
+            desc += " #%s" % self.payment_number
+        return desc
 

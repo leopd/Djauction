@@ -10,7 +10,7 @@ class PaymentInline(admin.TabularInline):
 
 class PersonAdmin(admin.ModelAdmin):
     list_filter = [ 'table' ]
-    list_display = [ Person.name, 'table', 'bid_number' ]
+    list_display = [ Person.name, 'table', 'bid_number', Person.balance_due ]
     search_fields = ['full_name', 'bid_number']
 
     inlines = [PurchaseInline, PaymentInline]

@@ -1,10 +1,10 @@
 <html>
     <head>
-        <title>BNCO Receipt</title>
+        <title>Blue Nile Children’s Organization 2011 Auction Buyer Receipt
+        </title>
         <style>
             body {
                 font-family: verdana, sans-serif;
-                background: #ccc;
             }
 
             th {
@@ -30,53 +30,126 @@
             }
             
             .main {
-              margin: 15px 30px;
-              padding: 10px 30px 80px;
-              background: #fff;
-              box-shadow: 0 0 10px #333;
-              -webkit-box-shadow: 0 0 10px #333;
-              -moz-box-shadow: 0 0 10px #333;
+                width: 800px;
+                margin-left: auto;
+                margin-right: auto;
+            }
 
-                
+            .head1 {
+                font-size: 20px;
+                font-weight: bold;
+            }
+            .head2 {
+                font-size: 12px;
+                font-style: italic;
+                text-align: right;
+            }
+            .imghead {
+                height: 100px;
+            }
+            h2 {
+                font-size: 20px;
+                text-decoration: underline;
+            }
+            h3 {
+                font-weight: normal;
+                margin: 2px;
+            }
+            .invoice {
+                margin: 10px;
+            }
+            .url {
+                text-align: center;
             }
         </style>
     </head>
     <body>
       <div class="main">
-        <h1>Receipt</h1>
-        <h2>Blue Nile Children's Organization Benefit 2011</h2>
+          <div class="head1">
+            Blue Nile Children's Organization
+          </div>
+          <div class="head2">
+            Building a future... one child at a time
+          </div>
+          <img src="http://bnco.leodirac.com/wp-content/uploads/2010/10/cropped-bigpic2.jpg" class="imghead">
+        <h2>Blue Nile Children’s Organization 2011 Auction Buyer Receipt
+        </h2>
 
-        <h3>For {{person}}</h3>
+        <h3>Buyer Name: {{person}}</h3>
+        <h3>Bid Number: {{person.bid_number}}</h3>
+        {% if person.phone %}
+            <h3>Buyer phone: {{person.phone}}</h3>
+        {% endif %}
+        {% if person.email %}
+            <h3>Buyer phone: {{person.email}}</h3>
+        {% endif %}
 
-        <table>
+        <table class="invoice">
         <tr>
             <th>Item
             </th>
-            <th>Amount Paid
+            <th>Amount 
             </th>
-            <th>Fair Market Value
+            <th>Type
             </th>
         </tr>
         {% for purchase in person.purchase_set.all %}
         <tr>
             <td class="lineitem">{{purchase.name}}
+                {% if purchase.item.fair_value %} 
+                  (fair market value ${{purchase.item.fair_value|floatformat:2}})
+                {% endif %}
             </td>
             <td class="money">${{purchase.amount|floatformat:2}}
             </td>
-            <td class="money">${{purchase.item.fair_value|floatformat:2}}
+            <td class="money">{{purchase.type}}
             </td>
         </tr>
         {% endfor %}
         <tr class="separator"></tr>
         <tr class="total">
-            <td>Total:</td>
-            <td class="money total">${{person.total|floatformat:2}}</td>
+            <td>Total Purchases:</td>
+            <td class="money total">${{person.total_purchases|floatformat:2}}</td>
         </tr>
+        <tr class="separator"></tr>
+        {% for payment in person.payment_set.all %}
+        <tr>
+            <td class="lineitem">
+                {{payment.description}}
+            </td>
+            <td class="money">${{payment.amount|floatformat:2}}
+            </td>
+        </tr>
+        {% endfor %}
+        {% if person.balance_due != 0 %}
+        <tr class="separator"></tr>
+        <tr>
+            <td class="lineitem">
+                Balance due:
+            </td>
+            <td class="money">${{person.balance_due}}
+            </td>
+        </tr>
+        {% endif %}
         </table>
 
         <div class="footer">
-            Blue Nile Children's Organization is a 501c3 non-profit organization.  
-            Donations are tax-deductible above their fair-market value.
+          <p>
+            BNCO Tax ID #: 91-1713724                                                    
+          </p>
+
+          <p>
+            Please Note: You may only deduct the amount in excess of fair market value for auction items.
+          </p>
+
+          <p>
+            Thank you for your support of Blue Nile Children’s Organization
+          </p>
+
+          <p class="url">
+            www.bluenile.org
+          </p>
+
         </div>
         
       </div>
