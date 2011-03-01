@@ -11,7 +11,7 @@ class PaymentInline(admin.TabularInline):
 
 class PersonAdmin(admin.ModelAdmin):
     list_filter = [ 'table' ]
-    list_display = [ Person.name, 'table', 'bid_number', Person.balance_due ]
+    list_display = [ 'full_name', 'table', 'bid_number', Person.balance_due ]
     search_fields = ['full_name', 'bid_number']
 
     inlines = [PurchaseInline, PaymentInline]
@@ -22,6 +22,23 @@ class PersonAdmin(admin.ModelAdmin):
         #return HttpResponseRedirect("/receipt/%d" % obj.id)
 
 
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ['by_whom', 'type', 'payment_number', 'amount', 'notes']
+    list_filter = ['type']
+    list_search = ['by_whom__name', 'by_whom__bid_number', 'notes']
+
+
+
+class PurchaseAdmin(admin.ModelAdmin):
+    list_display = ['by_whom', 'type', 'amount', 'item', 'notes']
+    list_filter = ['type']
+    list_search = ['by_whom__name', 'by_whom__bid_number', 'item__name', 'notes']
+
+
+
 admin.site.register(AuctionItem)
 admin.site.register(Person,PersonAdmin)
+admin.site.register(Purchase,PurchaseAdmin)
+admin.site.register(Payment,PaymentAdmin)
+
 
